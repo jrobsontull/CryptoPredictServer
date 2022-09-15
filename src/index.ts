@@ -2,6 +2,7 @@ import app from './server';
 import dotenv from 'dotenv';
 import { MongoClient } from 'mongodb';
 import { syncExists } from './utils/fileExists';
+import TweetsDAO from './dao/tweets.dao';
 
 console.log('⚡️ [Server]: Starting up...');
 
@@ -31,6 +32,9 @@ mongoClient
   })
   .then(async (client: MongoClient) => {
     console.log('⚡️ [Server]: Connected to MongoDB.');
+
+    // Inject collections
+    TweetsDAO.inject(client);
 
     // Start express server
     const port: number = parseInt(process.env.PORT, 10) || 8000;
